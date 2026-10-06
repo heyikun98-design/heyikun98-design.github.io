@@ -57,6 +57,39 @@ descendants**. The mobile menu overlay lives inside the header, so `inset: 0` al
 to the 60px header instead of the screen. `height: 100vh` fixes it — if you move the menu
 markup outside `<header>`, that line becomes unnecessary.
 
+## Live site
+
+**https://heyikun98-design.github.io/** — published with GitHub Pages from the public repo
+[heyikun98-design/heyikun98-design.github.io](https://github.com/heyikun98-design/heyikun98-design.github.io)
+(branch `main`, root folder, HTTPS enforced). Put this URL on the CV.
+
+Because the repo is named `<username>.github.io`, GitHub serves it as the account's user site —
+no path prefix, so the URL is as short as it gets.
+
+### Updating the live site
+
+The repo is already initialised here and wired to `origin`, so publishing a change is:
+
+```sh
+cd resume-site
+git add -A
+git commit -m "Update content"
+git push
+```
+
+Pages rebuilds automatically in ~30–60 s. The GitHub CLI is registered as the git credential
+helper (`gh auth setup-git`), so no password prompt appears.
+
+### Notes specific to this deployment
+
+- **Absolute URLs in `<head>`.** `og:image`, `og:url` and `rel=canonical` must stay absolute
+  (`https://heyikun98-design.github.io/...`). Social crawlers do not resolve relative paths, so
+  a relative `og:image` silently produces link previews with no image.
+- **Moving to a custom domain** means updating those three tags in both HTML files, plus adding
+  a `CNAME` file containing just the domain.
+- **WeChat caches link previews per URL.** After changing the share card, re-share with a query
+  string (`?v=2`) or a different URL to bust the cache.
+
 ## Preview locally
 
 Open `index.html` directly in a browser, or serve the folder:
@@ -67,33 +100,17 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-## Deploy
+## Alternative hosts
 
-### Option A — GitHub Pages (free, and you already have a GitHub account)
+**Vercel / Netlify** — drag the `resume-site` folder onto the dashboard and you get a URL such as
+`yikun-he.vercel.app`. Note that `vercel.app` is frequently unreachable from mainland China, so
+GitHub Pages is the safer default for applications to Chinese employers.
 
-```sh
-cd resume-site
-git init
-git add .
-git commit -m "Personal site"
-git branch -M main
-git remote add origin https://github.com/heyikun98-design/heyikun98-design.github.io.git
-git push -u origin main
-```
+**Cloudflare Pages** — better China routing than both; requires a Cloudflare account and either
+a Git connection or `wrangler pages deploy .`.
 
-Because the repository is named `heyikun98-design.github.io`, the site goes live at
-**https://heyikun98-design.github.io** — a good URL to put on the CV itself.
-In *Settings → Pages*, set the source to "Deploy from a branch" → `main` → `/ (root)`.
-
-### Option B — Vercel / Netlify (drag & drop)
-
-Drag the `resume-site` folder onto the dashboard and you get a URL such as
-`yikun-he.vercel.app`. Attach a custom domain later with a `CNAME` record at your registrar.
-
-### Option C — Custom domain
-
-Buy a domain (e.g. `yikunhe.com`), add a file named `CNAME` in this folder containing just the
-domain name, and every host above will serve it there.
+**Custom domain** — buy one (e.g. `yikunhe.com`), add a `CNAME` file containing just the domain
+name, and point an `A`/`CNAME` record at the host.
 
 ## Editing content
 
