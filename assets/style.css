@@ -1,0 +1,303 @@
+/* ============================================================
+   Yikun He — personal site
+   Design language: plain academic personal homepage.
+   Arial, #333 text, #007BFF blue, centered 800px column made of
+   light-grey blocks, fixed white header, 3-up project grid.
+   ============================================================ */
+
+:root {
+  --blue:      #007BFF;
+  --blue-dark: #0056b3;
+  --ink:       #333333;
+  --muted:     #666666;
+  --soft:      #555555;
+  --card:      #f9f9f9;
+  --band:      #f0f0f0;
+  --footer:    #f1f1f1;
+  --line:      #eaeaea;
+  --header-h:  60px;
+  --page:      800px;
+  --page-wide: 1200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding-top: var(--header-h);          /* clears the fixed header */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; }
+p { line-height: 1.6; }
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { color: var(--blue-dark); }
+
+/* Links inside body copy stay discoverable without relying on colour alone */
+#about p a, .entry a, .skill-line a, .project-item p a, .project-item .project-role a {
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 123, 255, 0.35);
+  text-underline-offset: 2px;
+}
+#about p a:hover, .entry a:hover, .skill-line a:hover,
+.project-item p a:hover, .project-item .project-role a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.skip-link {
+  position: absolute; left: 8px; top: -60px; z-index: 1200;
+  background: var(--blue); color: #fff; padding: 10px 16px; border-radius: 4px;
+}
+.skip-link:focus { top: 8px; color: #fff; }
+
+/* ── Header ────────────────────────────────────────────────── */
+header {
+  position: fixed; inset: 0 0 auto 0;
+  height: var(--header-h);
+  display: flex; justify-content: flex-end; align-items: center;
+  padding: 0 2em;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.navbar { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
+
+.nav-links { display: flex; align-items: center; gap: 2rem; margin-left: auto; }
+
+.nav-links a { font-weight: bold; color: var(--ink); padding: 0.5rem 0; }
+.nav-links a:hover { color: var(--blue); }
+.nav-links a.is-active { color: var(--blue); }
+
+/* Hamburger — hidden on desktop */
+.menu-toggle {
+  display: none;
+  flex-direction: column; justify-content: space-between;
+  width: 30px; height: 21px; padding: 0;
+  background: none; border: 0; cursor: pointer; z-index: 1001;
+}
+.menu-toggle span {
+  display: block; width: 100%; height: 2.5px; border-radius: 3px;
+  background: var(--ink); transform-origin: center;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.menu-toggle.active span:nth-child(1) { transform: translateY(9.25px) rotate(45deg); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: translateY(-9.25px) rotate(-45deg); }
+
+/* ── Shared section shell ──────────────────────────────────── */
+section {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 4em 2em;
+}
+section h2 { font-size: 2.5em; margin-bottom: 0.5em; text-align: center; }
+section > p { font-size: 1.1em; text-align: center; color: var(--soft); }
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero-content { background: var(--band); text-align: center; }
+.hero-content h1 { font-size: 3em; margin: 0.2em 0; }
+
+.hero-tagline {
+  font-size: 1.5em;
+  color: var(--soft);
+  margin: 0.5em auto 0;
+  max-width: 22em;
+}
+
+.cta-buttons {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 1em;
+  margin: 1.8em 0 1.4em;
+}
+.cta-button {
+  display: inline-block;
+  padding: 0.8em 1.2em;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color .2s ease;
+}
+.cta-button:hover { background: var(--blue-dark); color: #fff; }
+.cta-button--ghost { background: #fff; color: var(--blue); border: 1px solid var(--blue); }
+.cta-button--ghost:hover { background: #f0f7ff; color: var(--blue-dark); }
+
+.hero-bio { max-width: 46em; margin: 0 auto; color: var(--soft); font-size: 0.9em; }
+
+/* Optional: drop <img class="profile-image" …> into the hero for the
+   reference site's 200px circular portrait. Unused until you add one. */
+.profile-image {
+  width: 200px; height: 200px;
+  border-radius: 50%; object-fit: cover;
+  margin: 0 auto 1.5em;
+}
+
+/* ── Key facts line ────────────────────────────────────────── */
+.facts { text-align: center; color: var(--muted); font-size: 0.95em; margin-top: 1.5em; }
+
+/* ── Cards used for experience / education ─────────────────── */
+.entry {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 1.5em;
+  margin-top: 1.25em;
+  text-align: left;
+}
+.entry__head {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: .5em 1em;
+}
+.entry__head h3 { font-size: 1.2em; }
+.entry__date { color: var(--muted); font-size: .9em; white-space: nowrap; }
+.entry__role { color: var(--soft); font-size: .95em; margin-top: .15em; }
+
+.entry ul { margin: .8em 0 0; padding-left: 1.2em; }
+.entry li { margin-bottom: .4em; }
+.entry li:last-child { margin-bottom: 0; }
+.entry strong { color: var(--ink); }
+
+.tag-current {
+  display: inline-block; margin-right: .5em;
+  padding: 1px 8px; border-radius: 10px;
+  background: #e6f4ea; color: #137333;
+  font-size: .75em; font-weight: bold; letter-spacing: .03em; text-transform: uppercase;
+}
+
+/* ── Skills ────────────────────────────────────────────────── */
+.skill-line { font-size: 1.05em; margin-bottom: .6em; color: var(--soft); text-align: center; }
+.skill-line strong { color: var(--ink); }
+.skill-line:last-child { margin-bottom: 0; }
+
+/* ── Contact ───────────────────────────────────────────────── */
+#contact { background: var(--card); }
+.social-media {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: 1em 2em; margin: 2em 0 0;
+}
+.social-media a, .social-media span {
+  display: inline-flex; align-items: center; gap: .5em;
+  font-size: 1.1em; color: var(--ink);
+}
+.social-media a:hover { color: var(--blue); }
+.social-media .icon { width: 20px; height: 20px; color: var(--blue); }
+.contact-actions { margin-top: 2em; text-align: center; }
+
+/* ── Projects page ─────────────────────────────────────────── */
+#projects-page { max-width: var(--page-wide); margin: 0 auto; padding: 4em 2em 3em; }
+#projects-page > h1 { font-size: 2.5em; text-align: center; }
+#projects-page > p { font-size: 1.1em; text-align: center; color: var(--soft); margin: .5em 0 0; }
+
+.projects-grid { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 2em; }
+
+.project-item {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 1.5em;
+  margin: 1em;
+  width: calc(33.333% - 2em);
+  text-align: center;
+  display: flex; flex-direction: column;
+}
+.project-item h3 { font-size: 1.35em; color: var(--blue); margin-bottom: .4em; }
+.project-item .project-role { font-size: .9em; color: var(--muted); margin-bottom: .8em; }
+.project-item p { font-size: 1em; color: var(--soft); margin: 0 0 1em; }
+.project-item p:last-of-type { margin-bottom: 0; }
+
+.project-thumb {
+  margin-bottom: 1em; border-radius: 5px;
+  background: #fff; border: 1px solid var(--line); overflow: hidden;
+}
+.project-thumb svg { display: block; width: 100%; height: auto; }
+
+.project-tags { display: flex; flex-wrap: wrap; gap: .4em; justify-content: center; margin-top: auto; padding-top: .8em; }
+.project-tags span { font-size: .8em; color: var(--blue); background: #eaf3ff; border-radius: 12px; padding: 2px 10px; }
+
+.project-link { font-weight: bold; display: inline-block; margin-top: 1em; }
+.project-link:hover { text-decoration: underline; }
+
+/* Publication sits on its own, below the project grid */
+.pub-section { padding: 0 2em 4em; }
+.pub-section h2 { font-size: 2.5em; }
+.pub-section .project-item { width: 100%; max-width: 620px; margin: 0 auto; }
+
+/* ── Footer ────────────────────────────────────────────────── */
+footer {
+  background: var(--footer);
+  text-align: center;
+  padding: 1em 2em;
+  font-size: .95em;
+  color: var(--soft);
+}
+footer a { color: var(--soft); }
+footer a:hover { color: var(--blue); }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .project-item { width: calc(50% - 2em); }
+}
+
+@media (max-width: 768px) {
+  header { justify-content: space-between; padding: 0 1em; }
+  .menu-toggle { display: flex; }
+
+  /* The header has backdrop-filter, which makes it the containing block for
+     fixed-position children — hence the explicit width/height on the overlay. */
+  .nav-links {
+    position: fixed; inset: 0; margin: 0;
+    width: 100%; height: 100vh;
+    flex-direction: column; justify-content: center;
+    gap: 2em; padding: 2em;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none; opacity: 0;
+    transition: opacity .3s ease;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; opacity: 1; }
+  .nav-links a { display: block; width: 100%; text-align: center; padding: .5em 0; font-size: 1.2rem; }
+  body.menu-open { overflow: hidden; }
+
+  section { padding: 3em 1.25em; }
+  section h2 { font-size: 2em; }
+  .hero-content { padding: 2.5em 1.25em; }
+  .hero-content h1 { font-size: 2.2em; }
+  .hero-tagline { font-size: 1.2em; }
+
+  .cta-buttons { flex-direction: column; gap: .8em; margin: 1.2em 0; }
+  .cta-button { width: 100%; }
+
+  .social-media { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin: 1.5em 0 0; }
+  .social-media a, .social-media span {
+    margin: 0; padding: .7em; border-radius: 6px; background: #f5f5f5;
+    justify-content: center; font-size: 1em;
+  }
+  .social-media a:hover { background: #e5e5e5; }
+
+  #projects-page { padding: 3em 1.25em 2em; }
+  #projects-page > h1 { font-size: 2em; }
+  .project-item { width: 100%; margin: 1em 0; padding: 1.2em; }
+  .project-item h3 { font-size: 1.2em; }
+}
+
+/* ── Print ─────────────────────────────────────────────────── */
+@media print {
+  @page { margin: 14mm; }
+  body { padding-top: 0; font-size: 10.5pt; color: #000; }
+  header, .cta-buttons, .social-media, .menu-toggle { display: none !important; }
+  section, #projects-page { max-width: none; padding: 8pt 0; }
+  .hero-content, #contact, .entry, .project-item { background: #fff; }
+  .entry, .project-item { border: 1px solid #ddd; break-inside: avoid; margin: 6pt 0; }
+  .project-item { width: 100%; }
+  .project-thumb { display: none; }
+  a { color: #000; }
+}
